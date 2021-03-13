@@ -42,7 +42,7 @@
         <h2>Muutuja a väärtus: {{ variablea }}</h2>
       </v-col>
       <v-col class="mb-4">
-        <h2>Muutuja a väärtus: {{ variableb }}</h2>
+        <h2>Muutuja b väärtus: {{ variableb }}</h2>
       </v-col>
     </v-row>
   </v-container>
