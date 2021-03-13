@@ -1,14 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import FuelCalculator from "../components/FuelCalculator.vue";
 
 Vue.use(VueRouter);
 
-const routes = [
+export const routes = [
   {
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/FuelCalculator",
+    name: "Kütusekalkulaator",
+    component: FuelCalculator
   },
   {
     path: "/about",
