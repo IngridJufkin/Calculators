@@ -113,7 +113,7 @@ export default {
       variabled: 0,
       averageFuelConsumption: 0,
       distance: 0,
-      fuelAmount: 0
+      fuelAmount: 0,
       //result: 0, -->watcheri jaoks
     };
   },
@@ -177,7 +177,7 @@ export default {
       if (
         Number.isFinite(fuelPrice, averageFuelConsumption, distance, fuelAmount)
       ) {
-        return +variablec * +variabled;
+        return +fuelAmount * +variabled;
         //this.result = +variablea + +variableb; --> kasutaksime watcheriga
       } else {
         console.error("Method CalculateNumbers takes only numbers");
@@ -205,6 +205,8 @@ export default {
         }
       }
     },
+
+
     calculateDistance(variablea, variableb, variablec) {
       let averageFuelConsumption = (+variablec / +variablea) * 100;
       let distance = (variablec / variableb) * 100;
