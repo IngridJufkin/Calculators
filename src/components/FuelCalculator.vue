@@ -17,6 +17,7 @@
           hide-details="auto"
           type="number"
           min="0"
+          oninput="validity.valid||(value='');"
         ></v-text-field>
         <v-col class="mb-3" align="left">
           <h2>Teekonna pikkus: {{ distanceResult }} km</h2>
@@ -45,6 +46,8 @@
           label="Kütuse kogus (l)"
           hide-details="auto"
           type="number"
+          min="0"
+          oninput="validity.valid||(value='');"
         ></v-text-field>
 
         <v-col class="mb-3" align="left">
@@ -59,6 +62,8 @@
           label="Kütuse hind (eur)"
           hide-details="auto"
           type="number"
+          min="0"
+          oninput="validity.valid||(value='');"
         ></v-text-field>
 
         <v-col class="mb-2" align="left">
@@ -87,7 +92,7 @@
 export default {
   name: "FuelCalculator",
   props: {
-    msg: String, //anname väärtuse parent comonetist sisse, parent on app.vuee
+    msg: String //anname väärtuse parent comonetist sisse, parent on app.vuee
   },
   data() {
     return {
@@ -97,7 +102,7 @@ export default {
       variabled: 1.3,
       averageFuelConsumption: 0,
       distance: 0,
-      fuelAmount: 0,
+      fuelAmount: 0
       //result: 0, -->watcheri jaoks
     };
   },
@@ -150,7 +155,7 @@ export default {
         this.distance,
         this.fuelAmount
       );
-    },
+    }
   },
   /*watch: {
     //Watcherid - saame muutumist jälgida
@@ -241,7 +246,7 @@ export default {
       this.calculateAmount = value;
       this.averageFuelConsumption = value;
       this.fuelAmount = value;
-    },
-  },
+    }
+  }
 };
 </script>
