@@ -1,44 +1,50 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary lighten-1" dark>
-      <v-btn href="http://localhost:8080/" target="_blank" text>
-        <span class="mr-2">Avaleht</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-      <v-btn href="/FuelCalculator" text>
-        <span class="mr-2">Kalkulaator</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="title"> Calculators </v-list-item-title>
+          <v-list-item-subtitle> description </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
 
-    <v-main><br />
-      <FuelCalculator msg="Kütusekalkulaator" />
+    <v-main>
+      <router-view></router-view>
     </v-main>
-
-    <v-footer color="primary lighten-1" padless>
-      <v-row justify="center" no-gutters>
-        <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
-          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-        </v-col>
-      </v-row>
-    </v-footer>
   </v-app>
 </template>
 
-
-
 <script>
-import FuelCalculator from "./components/FuelCalculator";
-
 export default {
-  name: "App",
-
-  components: {
-    FuelCalculator,
-  },
-
   data: () => ({
-    //
+    drawer: null,
+    items: [
+      { title: "Home", icon: "mdi-home", to: "/" },
+      { title: "Fuel", icon: "mdi-gas-station", to: "/fuelcalculator" },
+      { title: "Salary", icon: "mdi-cash-multiple", to: "/salarycalculator" },
+      { title: "TBA", icon: "mdi-help-box" },
+    ],
   }),
 };
 </script>

@@ -1,0 +1,17 @@
+<template>
+  <FuelCalculator msg="Fuel calculator" />
+</template>
+
+
+<script>
+// @ is an alias to /src
+
+import FuelCalculator from "@/components/FuelCalculator.vue";
+
+export default {
+  name: "Fuel Calculator",
+  components: {
+    FuelCalculator,
+  },
+};
+</script>
