@@ -1,12 +1,8 @@
 <template>
   <v-container>
     <v-row class="text-center">
-      Siia peaks tulema kalkulaator
       <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          {{ msg }}
-        </h1>
-        <p>{{add(5,10)}}</p>
+        <h1 class="display-2 font-weight-bold mb-3">{{ msg }}</h1>
       </v-col>
     </v-row>
   </v-container>
@@ -23,9 +19,9 @@ export default {
     add(a, b) {
       return a + b;
     },
-    multiply(a,b) {
-      return a*b;
-    }
+    multiply(a, b) {
+      return a * b;
+    },
   },
 };
 </script>

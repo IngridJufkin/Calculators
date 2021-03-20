@@ -11,17 +11,13 @@
     <!-- Distance covered-->
     <v-col class="mb-3">
       <v-row align="center">
-        <v-checkbox
-          v-model.number="variablea"
-          hide-details
-          class="shrink mr-2 mt-0"
-        ></v-checkbox>
         <v-text-field
           v-model.number="variablea"
           label="Teekonna pikkus (km)"
           hide-details="auto"
           type="number"
           min="0"
+          oninput="validity.valid||(value='');"
         ></v-text-field>
         <v-col class="mb-3" align="left">
           <h2>Teekonna pikkus: {{ distanceResult }} km</h2>
@@ -29,13 +25,8 @@
       </v-row>
       <!-- Average fuel consumption l/100km -->
       <v-row align="center">
-        <v-checkbox
-          v-model.number="variableb"
-          hide-details
-          class="shrink mr-2 mt-0"
-        ></v-checkbox>
         <v-text-field
-          v-model.number="variableb"
+          v-model.number="averageConsumptionResult"
           label="Keskmine kütusekulu (l/100km)"
           hide-details="auto"
           type="number"
@@ -50,17 +41,13 @@
 
       <!-- Fuel required-->
       <v-row align="center">
-        <v-checkbox
-          v-model.number="variablec"
-          hide-details
-          class="shrink mr-2 mt-0"
-        ></v-checkbox>
-
         <v-text-field
-          v-model.number="variablec"
+          v-model.number="fuelAmountResult"
           label="Kütuse kogus (l)"
           hide-details="auto"
           type="number"
+          min="0"
+          oninput="validity.valid||(value='');"
         ></v-text-field>
 
         <v-col class="mb-3" align="left">
@@ -75,6 +62,8 @@
           label="Kütuse hind (eur)"
           hide-details="auto"
           type="number"
+          min="0"
+          oninput="validity.valid||(value='');"
         ></v-text-field>
 
         <v-col class="mb-2" align="left">
@@ -103,17 +92,17 @@
 export default {
   name: "FuelCalculator",
   props: {
-    msg: String, //anname väärtuse parent comonetist sisse, parent on app.vuee
+    msg: String //anname väärtuse parent comonetist sisse, parent on app.vuee
   },
   data() {
     return {
-      variablea: 0,
-      variableb: 0,
-      variablec: 0,
-      variabled: 0,
+      variablea: 400,
+      variableb: 5,
+      variablec: 20,
+      variabled: 1.3,
       averageFuelConsumption: 0,
       distance: 0,
-      fuelAmount: 0,
+      fuelAmount: 0
       //result: 0, -->watcheri jaoks
     };
   },
@@ -125,7 +114,10 @@ export default {
         this.variablea,
         this.variableb,
         this.variablec,
-        this.variabled
+        this.variabled,
+        this.averageFuelConsumption,
+        this.distance,
+        this.fuelAmount
       );
     },
     averageConsumptionResult() {
@@ -134,7 +126,10 @@ export default {
         this.variablea,
         this.variableb,
         this.variablec,
-        this.variabled
+        this.variabled,
+        this.averageFuelConsumption,
+        this.distance,
+        this.fuelAmount
       );
     },
     distanceResult() {
@@ -143,7 +138,10 @@ export default {
         this.variablea,
         this.variableb,
         this.variablec,
-        this.variabled
+        this.variabled,
+        this.averageFuelConsumption,
+        this.distance,
+        this.fuelAmount
       );
     },
     fuelAmountResult() {
@@ -152,9 +150,12 @@ export default {
         this.variablea,
         this.variableb,
         this.variablec,
-        this.variabled
+        this.variabled,
+        this.averageFuelConsumption,
+        this.distance,
+        this.fuelAmount
       );
-    },
+    }
   },
   /*watch: {
     //Watcherid - saame muutumist jälgida
@@ -206,7 +207,6 @@ export default {
       }
     },
 
-
     calculateDistance(variablea, variableb, variablec) {
       let averageFuelConsumption = (+variablec / +variablea) * 100;
       let distance = (variablec / variableb) * 100;
@@ -244,7 +244,9 @@ export default {
       this.calculateAVG = value;
       this.calculateDistance = value;
       this.calculateAmount = value;
-    },
-  },
+      this.averageFuelConsumption = value;
+      this.fuelAmount = value;
+    }
+  }
 };
 </script>
