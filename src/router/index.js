@@ -14,7 +14,7 @@ export const routes = [
   },
   {
     path: '/fuelcalculator',
-    name: 'Fuel Calculator',
+    name: 'FuelCalculator',
     component: FuelCalculator,
   },
   {
