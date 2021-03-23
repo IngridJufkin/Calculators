@@ -1,5 +1,5 @@
 <template>
-  <FuelCalculator msg="Fuel calculator" />
+  <FuelCalculator msg="Kütuse kalkulaator"/>
 </template>
 
 
