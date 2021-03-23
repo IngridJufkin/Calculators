@@ -1,7 +1,8 @@
 <template>
   <!-- Calculator name-->
   <v-container>
-    <v-row class="text-left">
+    <div class="spacing-playground pa-16">
+    <v-row class="font-weight-medium text-left">
       <v-col class="mb-4">
         <h1 class="display-1 font-weight-bold mb-3 ">
           {{ msg }}
@@ -34,7 +35,7 @@
 
     <!-- Distance covered-->
     <v-col class="mb-3">
-      <v-row align="center">
+      <v-row align="center" >
         <v-text-field
           v-if="picked != 1"
           v-model.number="variablea"
@@ -135,7 +136,7 @@
         <h2 v-else>Kütuse maksumus: {{ (variablec*fuelPriceInput).toFixed(2)}} eurot</h2>
       </v-col>
     </v-row>
-
+    </div>
   </v-container>
 </template>
 
@@ -152,7 +153,7 @@ export default {
       variablec: 20,
       fuelPriceInput: 1.3,
 
-      picked: "Teekonna pikkus (km)",
+      picked: "1",
     };
   },
   computed: {
@@ -215,8 +216,7 @@ export default {
     calculateAVG(variablea, variableb, variablec) {
       let averageFuelConsumption = (+variablec / +variablea) * 100;
       if (
-        isNaN(averageFuelConsumption) ||
-        !Number.isFinite(averageFuelConsumption)
+        isNaN(averageFuelConsumption) || !Number.isFinite(averageFuelConsumption)
       ) {
         return variableb;
       } else {
