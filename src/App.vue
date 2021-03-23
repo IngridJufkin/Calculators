@@ -43,8 +43,8 @@ export default {
       { title: "Home", icon: "mdi-home", to: "/" },
       { title: "Fuel", icon: "mdi-gas-station", to: "/fuelcalculator" },
       { title: "Salary", icon: "mdi-cash-multiple", to: "/salarycalculator" },
-      { title: "TBA", icon: "mdi-help-box" },
-    ],
-  }),
+      { title: "TBA", icon: "mdi-help-box" }
+    ]
+  })
 };
 </script>

@@ -12,7 +12,7 @@
 export default {
   name: "HelloWorld",
   props: {
-    msg: String, //anname väärtuse parent comonetist sisse, parent on app.vuee
+    msg: String //anname väärtuse parent comonetist sisse, parent on app.vuee
   },
   data: () => ({}),
   methods: {
@@ -21,7 +21,7 @@ export default {
     },
     multiply(a, b) {
       return a * b;
-    },
-  },
+    }
+  }
 };
 </script>

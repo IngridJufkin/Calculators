@@ -1,88 +1,161 @@
 <template>
   <!-- Calculator name-->
+
   <v-container>
-    <v-row class="text-left">
-      <v-col class="mb-4">
-        <h1 class="display-1 font-weight-bold mb-3">
-          {{ msg }}
-        </h1>
-      </v-col>
-    </v-row>
-    <!-- Distance covered-->
-    <v-col class="mb-3">
-      <v-row align="center">
-        <v-text-field
-          v-model.number="variablea"
-          label="Teekonna pikkus (km)"
-          hide-details="auto"
-          type="number"
-          min="0"
-          oninput="validity.valid||(value='');"
-        ></v-text-field>
-        <v-col class="mb-3" align="left">
-          <h2>Teekonna pikkus: {{ distanceResult }} km</h2>
+    <v-row justify="center">
+      <v-col
+        class="spacing-playground pa-12 text-center"
+        cols="12"
+        xl="5"
+        lg="7"
+        md="9"
+        sm="8"
+      >
+        <v-row class="font-weight-medium text-center">
+          <v-col>
+            <h1 class="display-1 font-weight-bold mb-3">
+              {{ msg }}
+            </h1>
+          </v-col>
+        </v-row>
+
+        <span> Vali arvutatav näitaja</span>
+
+        <v-radio-group v-model="picked">
+          <v-radio
+            id="btn1"
+            name="Choice"
+            label="Teekonna pikkus"
+            value="1"
+          ></v-radio>
+          <v-radio
+            id="btn2"
+            name="Choice"
+            label="Keskmine kütusekulu"
+            value="2"
+          ></v-radio>
+          <v-radio
+            id="btn3"
+            name="Choice"
+            label="Kütuse kogus"
+            value="3"
+          ></v-radio>
+        </v-radio-group>
+
+        <!-- Distance covered-->
+        <v-col class="mb-3">
+          <v-row>
+            <v-text-field
+              v-if="picked != 1"
+              v-model.number="variablea"
+              :disabled="picked == 1"
+              label="Teekonna pikkus"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".1"
+              oninput="validity.valid||(value='');"
+              suffix="km"
+            ></v-text-field>
+
+            <v-text-field
+              v-else
+              v-model.number="distanceResult"
+              :disabled="picked == 1"
+              label="Teekonna pikkus"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".1"
+              oninput="validity.valid||(value='');"
+              suffix="km"
+            ></v-text-field>
+          </v-row>
+          <br /><br />
+
+          <!-- Average fuel consumption l/100km -->
+          <v-row>
+            <v-text-field
+              v-if="picked != 2"
+              v-model.number="variableb"
+              :disabled="picked == 2"
+              label="Keskmine kütusekulu (l/100km)"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".1"
+              oninput="validity.valid||(value='');"
+              suffix="l/100km"
+            ></v-text-field>
+
+            <v-text-field
+              v-else
+              v-model.number="averageConsumptionResult"
+              :disabled="picked == 2"
+              label="Keskmine kütusekulu (l/100km)"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".1"
+              oninput="validity.valid||(value='');"
+              suffix="l/100km"
+            ></v-text-field> </v-row
+          ><br /><br />
+
+          <!-- Fuel required-->
+          <v-row>
+            <v-text-field
+              v-if="picked != 3"
+              v-model.number="variablec"
+              :disabled="picked == 3"
+              label="Kütuse kogus (l)"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".1"
+              oninput="validity.valid||(value='');"
+              suffix="l"
+            ></v-text-field>
+
+            <v-text-field
+              v-else
+              v-model.number="fuelAmountResult"
+              :disabled="picked == 3"
+              label="Kütuse kogus (l)"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".1"
+              oninput="validity.valid||(value='');"
+              suffix="l"
+            ></v-text-field> </v-row
+          ><br /><br />
+
+          <!-- Fuel price-->
+          <v-row>
+            <v-text-field
+              v-model.number="fuelPriceInput"
+              label="Kütuse hind (eur/l)"
+              hide-details="auto"
+              type="number"
+              min="0"
+              step=".001"
+              oninput="validity.valid||(value='');"
+              suffix="€"
+            ></v-text-field>
+          </v-row>
         </v-col>
-      </v-row>
-      <!-- Average fuel consumption l/100km -->
-      <v-row align="center">
-        <v-text-field
-          v-model.number="averageConsumptionResult"
-          label="Keskmine kütusekulu (l/100km)"
-          hide-details="auto"
-          type="number"
-          min="0"
-          oninput="validity.valid||(value='');"
-        ></v-text-field>
+        <br />
 
-        <v-col class="mb-2" align="left">
-          <h2>Keskmine kütusekulu: {{ averageConsumptionResult }} l/100km</h2>
-        </v-col>
-      </v-row>
-
-      <!-- Fuel required-->
-      <v-row align="center">
-        <v-text-field
-          v-model.number="fuelAmountResult"
-          label="Kütuse kogus (l)"
-          hide-details="auto"
-          type="number"
-          min="0"
-          oninput="validity.valid||(value='');"
-        ></v-text-field>
-
-        <v-col class="mb-3" align="left">
-          <h2>Kütuse kogus: {{ fuelAmountResult }}</h2>
-        </v-col> </v-row
-      ><br />
-
-      <!-- Fuel price-->
-      <v-row align="center">
-        <v-text-field
-          v-model.number="variabled"
-          label="Kütuse hind (eur)"
-          hide-details="auto"
-          type="number"
-          min="0"
-          oninput="validity.valid||(value='');"
-        ></v-text-field>
-
-        <v-col class="mb-2" align="left">
-          <h2>Kütuse hind: {{ variabled }}</h2>
-        </v-col>
-      </v-row>
-    </v-col>
-    <v-row class="mb-3">
-      <!--       <v-col>
-        <v-btn
-          @click="calculateNumbers(variablea, variableb, variablec, variabled)"
-          elevation="2"
-          >Arvuta summa</v-btn
-        >
-      </v-col>
- -->
-      <v-col class="mb-9">
-        <!-- kasutame vastuse real resulti kui muutujat -->
-        <h2>Kütuse maksumus: {{ result }}</h2>
+        <v-row>
+          <v-col>
+            <h3 v-if="picked == 3">Kütuse maksumus: {{ fuelCost }} €</h3>
+            <h3 v-else>
+              Kütuse maksumus:
+              {{ (variablec * fuelPriceInput).toFixed(3) }} €
+            </h3>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -92,160 +165,75 @@
 export default {
   name: "FuelCalculator",
   props: {
-    msg: String //anname väärtuse parent comonetist sisse, parent on app.vuee
+    msg: String
   },
   data() {
     return {
       variablea: 400,
       variableb: 5,
       variablec: 20,
-      variabled: 1.3,
-      averageFuelConsumption: 0,
-      distance: 0,
-      fuelAmount: 0
-      //result: 0, -->watcheri jaoks
+      fuelPriceInput: 1.3,
+
+      picked: "1"
     };
   },
   computed: {
-    //neid ei saa settida ja väärtust anda, sest neil on juba väärtus
-    result() {
-      //kui mingi muutuja väärtus muutub, käivitub result uuesti iga kord
+    fuelCost() {
       return this.calculateNumbers(
         this.variablea,
         this.variableb,
-        this.variablec,
-        this.variabled,
-        this.averageFuelConsumption,
-        this.distance,
-        this.fuelAmount
+        this.fuelPriceInput
       );
     },
     averageConsumptionResult() {
-      //kui mingi muutuja väärtus muutub, käivitub averageConsumptionResult uuesti iga kord
-      return this.calculateAVG(
-        this.variablea,
-        this.variableb,
-        this.variablec,
-        this.variabled,
-        this.averageFuelConsumption,
-        this.distance,
-        this.fuelAmount
-      );
+      return this.calculateAVG(this.variablea, this.variableb, this.variablec);
     },
     distanceResult() {
-      //kui mingi muutuja väärtus muutub, käivitub distanceResult uuesti iga kord
-      return this.calculateDistance(
-        this.variablea,
-        this.variableb,
-        this.variablec,
-        this.variabled,
-        this.averageFuelConsumption,
-        this.distance,
-        this.fuelAmount
-      );
+      return this.calculateDistance(this.variableb, this.variablec);
     },
     fuelAmountResult() {
-      //kui mingi muutuja väärtus muutub, käivitub distanceResult uuesti iga kord
-      return this.calculateAmount(
-        this.variablea,
-        this.variableb,
-        this.variablec,
-        this.variabled,
-        this.averageFuelConsumption,
-        this.distance,
-        this.fuelAmount
-      );
+      return this.calculateAmount(this.variablea, this.variableb);
     }
   },
-  /*watch: {
-    //Watcherid - saame muutumist jälgida
-    variablea(val) {
-      console.log(val);
-      this.calculateNumbers(val, this.variableb) 
-    },
-    variableb(val) {
-      console.log(val);
-      this.calculateNumbers(this.variablea, val) //
-    }
-  }, */
-  methods: {
-    calculateNumbers(variablea, variableb, variablec, variabled) {
-      let fuelPrice = +variablec * +variabled;
-      let averageFuelConsumption = (+variablec / +variablea) * 100;
-      let distance = (variablec / variableb) * 100;
-      let fuelAmount = (variablea / 100) * variableb;
 
-      if (
-        Number.isFinite(fuelPrice, averageFuelConsumption, distance, fuelAmount)
-      ) {
-        return +fuelAmount * +variabled;
-        //this.result = +variablea + +variableb; --> kasutaksime watcheriga
-      } else {
-        console.error("Method CalculateNumbers takes only numbers");
-        //this.result = 0;  --> kasutaksime watcheriga
+  methods: {
+    calculateNumbers(variablea, variableb, fuelPriceInput) {
+      let fuelCost = (variablea / 100) * variableb;
+      if (isNaN(fuelCost) || !Number.isFinite(fuelCost)) {
         return 0;
+      } else {
+        return (+fuelCost * +fuelPriceInput).toFixed(2);
+      }
+    },
+
+    calculateDistance(variableb, variablec) {
+      let distance = (variablec / variableb) * 100;
+      if (isNaN(distance) || !Number.isFinite(distance)) {
+        return 0;
+      } else {
+        return distance.toFixed(2);
       }
     },
 
     calculateAVG(variablea, variableb, variablec) {
       let averageFuelConsumption = (+variablec / +variablea) * 100;
-      let distance = (variablec / variableb) * 100;
-      let fuelAmount = (variablea / 100) * variableb;
-      if (isNaN(averageFuelConsumption, distance, fuelAmount)) {
+      if (
+        isNaN(averageFuelConsumption) ||
+        !Number.isFinite(averageFuelConsumption)
+      ) {
         return variableb;
       } else {
-        if (Number.isFinite(averageFuelConsumption, distance, fuelAmount)) {
-          return (+variablec / +variablea) * 100;
-        } else {
-          if (averageFuelConsumption == false) {
-            return 0;
-          } else {
-            console.error("Method CalculateAVG takes only numbers");
-            return 0;
-          }
-        }
+        return ((+variablec / +variablea) * 100).toFixed(2);
       }
     },
 
-    calculateDistance(variablea, variableb, variablec) {
-      let averageFuelConsumption = (+variablec / +variablea) * 100;
-      let distance = (variablec / variableb) * 100;
+    calculateAmount(variablea, variableb) {
       let fuelAmount = (variablea / 100) * variableb;
-      if (isNaN(distance)) {
+      if (isNaN(fuelAmount) || !Number.isFinite(fuelAmount)) {
         return 0;
       } else {
-        if (Number.isFinite(averageFuelConsumption, distance, fuelAmount)) {
-          return (+variablec / averageFuelConsumption) * 100;
-        } else {
-          console.error("Method calculateDistance takes only numbers");
-          return 0;
-        }
+        return fuelAmount.toFixed(2);
       }
-    },
-
-    calculateAmount(variablea, variableb, variablec) {
-      let averageFuelConsumption = (+variablec / +variablea) * 100;
-      let distance = (variablec / variableb) * 100;
-      let fuelAmount = (variablea / 100) * variableb;
-      if (isNaN(fuelAmount)) {
-        return 0;
-      } else {
-        if (Number.isFinite(averageFuelConsumption, distance, fuelAmount)) {
-          return (variablea / 100) * variableb;
-        } else {
-          console.error("Method calculateAmount takes only numbers");
-          return 0;
-        }
-      }
-    },
-
-    setResult(value) {
-      this.result = value;
-      this.calculateAVG = value;
-      this.calculateDistance = value;
-      this.calculateAmount = value;
-      this.averageFuelConsumption = value;
-      this.fuelAmount = value;
     }
   }
 };
