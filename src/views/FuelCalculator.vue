@@ -1,7 +1,6 @@
 <template>
-  <FuelCalculator msg="Kütuse kalkulaator"/>
+  <FuelCalculator msg="Kütuse kalkulaator" />
 </template>
-
 
 <script>
 // @ is an alias to /src
@@ -11,7 +10,7 @@ import FuelCalculator from "@/components/FuelCalculator.vue";
 export default {
   name: "Fuel",
   components: {
-    FuelCalculator,
-  },
+    FuelCalculator
+  }
 };
 </script>

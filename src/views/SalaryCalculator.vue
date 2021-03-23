@@ -12,7 +12,7 @@ import SalaryCalculator from "@/components/SalaryCalculator.vue";
 export default {
   name: "Salary",
   components: {
-    SalaryCalculator,
-  },
+    SalaryCalculator
+  }
 };
 </script>

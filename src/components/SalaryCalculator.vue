@@ -15,18 +15,12 @@
 export default {
   name: "Salary",
   props: {
-    msg: String, 
+    msg: String
   },
   data() {
-    return {
-
-    };
+    return {};
   },
-  computed: {
- 
-  },
-  methods: {
-
-  },
+  computed: {},
+  methods: {}
 };
 </script>
