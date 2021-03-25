@@ -48,7 +48,6 @@
             <v-text-field
               v-if="picked != 1"
               v-model.number="variablea"
-              :disabled="picked == 1"
               label="Teekonna pikkus"
               hide-details="auto"
               type="number"
@@ -78,8 +77,7 @@
             <v-text-field
               v-if="picked != 2"
               v-model.number="variableb"
-              :disabled="picked == 2"
-              label="Keskmine kütusekulu (l/100km)"
+              label="Keskmine kütusekulu"
               hide-details="auto"
               type="number"
               min="0"
@@ -92,7 +90,7 @@
               v-else
               v-model.number="averageConsumptionResult"
               :disabled="picked == 2"
-              label="Keskmine kütusekulu (l/100km)"
+              label="Keskmine kütusekulu"
               hide-details="auto"
               type="number"
               min="0"
@@ -107,8 +105,7 @@
             <v-text-field
               v-if="picked != 3"
               v-model.number="variablec"
-              :disabled="picked == 3"
-              label="Kütuse kogus (l)"
+              label="Kütuse kogus"
               hide-details="auto"
               type="number"
               min="0"
@@ -121,7 +118,7 @@
               v-else
               v-model.number="fuelAmountResult"
               :disabled="picked == 3"
-              label="Kütuse kogus (l)"
+              label="Kütuse kogus"
               hide-details="auto"
               type="number"
               min="0"
@@ -135,7 +132,7 @@
           <v-row>
             <v-text-field
               v-model.number="fuelPriceInput"
-              label="Kütuse hind (eur/l)"
+              label="Kütuse hind"
               hide-details="auto"
               type="number"
               min="0"
@@ -152,7 +149,7 @@
             <h3 v-if="picked == 3">Kütuse maksumus: {{ fuelCost }} €</h3>
             <h3 v-else>
               Kütuse maksumus:
-              {{ (variablec * fuelPriceInput).toFixed(3) }} €
+              {{ (variablec * fuelPriceInput).toFixed(2) }} €
             </h3>
           </v-col>
         </v-row>
