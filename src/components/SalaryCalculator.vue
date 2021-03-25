@@ -18,25 +18,21 @@
           type="number"
           min="0"
         ></v-text-field>
-        <v-row>
-          <v-text-field
-            v-if="this.items.id != 0"
-            v-model.number="taxFreeMin"
-            @input="testCalc()"
-            label="Tax Free Minimum Amount (€)"
-            hide-details="auto"
-            type="number"
-            min="0"
-            max="500"
-          ></v-text-field>
+        <br />
 
-          <v-text-field v-else></v-text-field>
-          <br /> </v-row
-        ><br /><br />
-
-        <v-row>
+        <v-text-field
+          v-model.number="taxFreeMin"
+          @input="testCalc()"
+          label="Tax Free Minimum Amount (€)"
+          hide-details="auto"
+          type="number"
+          min="0"
+          max="500"
+        ></v-text-field>
+        <br /><br />
+        
           <span>Aastane brutotulu: {{ estimatedAnnualSalary }}</span>
-        </v-row>
+      
       </v-col>
 
       <v-col cols="6" class="right"
@@ -79,7 +75,7 @@
 export default {
   name: "Salary",
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
@@ -90,68 +86,68 @@ export default {
       items: [
         {
           id: 0,
-          name: "Arvesta sotsiaalmaksu min. kuumäära alusel"
+          name: "Arvesta sotsiaalmaksu min. kuumäära alusel",
         },
         {
           id: 1,
           name: "Arvesta maksuvaba tulu",
-          value: null
+          value: null,
         },
         {
           id: 2,
-          name: "Tööandja töötuskindlustusmakse"
+          name: "Tööandja töötuskindlustusmakse",
         },
         {
           id: 3,
-          name: "Töötaja (kindlustatu) töötuskindlustusmakse"
+          name: "Töötaja (kindlustatu) töötuskindlustusmakse",
         },
         {
           id: 4,
-          name: "Kogumispension (II sammas)"
-        }
+          name: "Kogumispension (II sammas)",
+        },
       ],
       results: [
         {
           id: 0,
           name: "Tööandja kulu kokku (palgafond)",
           numVal: 1338,
-          percentVal: 133.8
+          percentVal: 133.8,
         },
         {
           id: 1,
           name: "Sotsiaalmaks",
           numVal: 330,
-          percentVal: 33
+          percentVal: 33,
         },
         {
           id: 2,
           name: "Töötuskindlustusmakse (tööandja)",
           numVal: 8,
-          percentVal: 0.8
+          percentVal: 0.8,
         },
         { id: 3, name: "Brutopalk", numVal: 1000, percentVal: 100 },
         {
           id: 4,
           name: "Kogumispension (II sammas)",
           numVal: 20,
-          percentVal: 2
+          percentVal: 2,
         },
         {
           id: 5,
           name: "Töötuskindlustusmakse (töötaja)",
           numVal: 16,
-          percentVal: 1.6
+          percentVal: 1.6,
         },
         { id: 6, name: "Tulumaks", numVal: 92.8, percentVal: 20 },
 
-        { id: 7, name: "Netopalk", numVal: "4576 €", percentVal: "25%" }
-      ]
+        { id: 7, name: "Netopalk", numVal: "4576 €", percentVal: "25%" },
+      ],
     };
   },
   computed: {
     estimatedAnnualSalary() {
       return (this.testInput * 12).toFixed(2);
-    }
+    },
   },
 
   methods: {
@@ -219,8 +215,8 @@ export default {
       //netopalk (eur) ja osakaal brutopalgast %
       this.results[7].numVal = netSalary.toFixed(2);
       this.results[7].percentVal = ((netSalary / grossSalary) * 100).toFixed(2);
-    }
-  }
+    },
+  },
 };
 </script>
 
