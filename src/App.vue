@@ -26,7 +26,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Example text</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -43,8 +43,8 @@ export default {
       { title: "Home", icon: "mdi-home", to: "/" },
       { title: "Fuel", icon: "mdi-gas-station", to: "/fuelcalculator" },
       { title: "Salary", icon: "mdi-cash-multiple", to: "/salarycalculator" },
-      { title: "TBA", icon: "mdi-help-box" }
-    ]
-  })
+      { title: "TBA", icon: "mdi-help-box" },
+    ],
+  }),
 };
 </script>

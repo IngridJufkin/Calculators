@@ -1,7 +1,7 @@
 <template>
   <!-- Calculator name-->
 
-  <v-container>
+  <v-container fluid>
     <v-row justify="center">
       <v-col
         class="spacing-playground pa-12 text-center"
