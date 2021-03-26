@@ -1,38 +1,35 @@
 <template>
   <!-- Calculator name-->
-  <v-container class="font-weight-medium text-left" padding-left: 20px>
+  <v-container class="font-weight-medium text-left">
     <v-row>
       <v-col cols="6" class="left"
         >Lähteandmed
 
-        <v-radio-group v-model="row" row>
-          <v-radio label="Tööandja kulu" value="radio-1"></v-radio>
-          <v-radio label="Brutotulu" value="radio-2"></v-radio>
-        </v-radio-group>
-
         <v-text-field
-          v-model.number="testInput"
+          v-model.number="mainInput"
           @input="testCalc()"
           label="Gross Salary (€)"
           hide-details="auto"
           type="number"
           min="0"
         ></v-text-field>
-        <br />
 
         <v-text-field
+          v-if="this.checkboxIdList.includes(1)"
           v-model.number="taxFreeMin"
-          @input="testCalc()"
+          @change="testCalc()"
           label="Tax Free Minimum Amount (€)"
           hide-details="auto"
           type="number"
           min="0"
           max="500"
         ></v-text-field>
-        <br /><br />
-        
-          <span>Aastane brutotulu: {{ estimatedAnnualSalary }}</span>
-      
+
+        <div v-else></div>
+
+        <v-row class="annual"
+          >Aastane brutotulu: {{ estimatedAnnualSalary }}</v-row
+        >
       </v-col>
 
       <v-col cols="6" class="right"
@@ -46,6 +43,7 @@
               :label="item.name"
               :value="item"
               hide-details
+              @change="checkboxCheck()"
             ></v-checkbox>
           </v-list-item>
         </v-list> </v-col
@@ -75,89 +73,96 @@
 export default {
   name: "Salary",
   props: {
-    msg: String,
+    msg: String
   },
   data() {
     return {
-      testInput: null,
+      mainInput: null,
       testResult: null,
       taxFreeMin: null,
       checkbox: [],
+      checkboxIdList: "",
+
       items: [
         {
           id: 0,
-          name: "Arvesta sotsiaalmaksu min. kuumäära alusel",
+          name: "Arvesta sotsiaalmaksu min. kuumäära alusel"
         },
         {
           id: 1,
           name: "Arvesta maksuvaba tulu",
-          value: null,
+          value: null
         },
         {
           id: 2,
-          name: "Tööandja töötuskindlustusmakse",
+          name: "Tööandja töötuskindlustusmakse"
         },
         {
           id: 3,
-          name: "Töötaja (kindlustatu) töötuskindlustusmakse",
+          name: "Töötaja (kindlustatu) töötuskindlustusmakse"
         },
         {
           id: 4,
-          name: "Kogumispension (II sammas)",
-        },
+          name: "Kogumispension (II sammas)"
+        }
       ],
       results: [
         {
           id: 0,
           name: "Tööandja kulu kokku (palgafond)",
           numVal: 1338,
-          percentVal: 133.8,
+          percentVal: 133.8
         },
         {
           id: 1,
           name: "Sotsiaalmaks",
           numVal: 330,
-          percentVal: 33,
+          percentVal: 33
         },
         {
           id: 2,
           name: "Töötuskindlustusmakse (tööandja)",
           numVal: 8,
-          percentVal: 0.8,
+          percentVal: 0.8
         },
         { id: 3, name: "Brutopalk", numVal: 1000, percentVal: 100 },
         {
           id: 4,
           name: "Kogumispension (II sammas)",
-          numVal: 20,
-          percentVal: 2,
+          numVal: 0,
+          percentVal: 0
         },
         {
           id: 5,
           name: "Töötuskindlustusmakse (töötaja)",
           numVal: 16,
-          percentVal: 1.6,
+          percentVal: 1.6
         },
         { id: 6, name: "Tulumaks", numVal: 92.8, percentVal: 20 },
 
-        { id: 7, name: "Netopalk", numVal: "4576 €", percentVal: "25%" },
-      ],
+        { id: 7, name: "Netopalk", numVal: "4576 €", percentVal: "25%" }
+      ]
     };
   },
+
   computed: {
     estimatedAnnualSalary() {
-      return (this.testInput * 12).toFixed(2);
-    },
+      return (this.mainInput * 12).toFixed(2);
+    }
   },
 
   methods: {
+    checkboxCheck() {
+      let checkboxId = this.checkbox.map(item => item.id);
+      this.checkboxIdList = checkboxId;
+    },
     testCalc() {
-      const socialTax = this.testInput * 0.33;
-      const totalCostEmp = this.testInput + socialTax;
-      const unemploymentInsuranceEmployer = this.testInput * 0.008;
-      const grossSalary = this.testInput;
-      const fundedPensionIIPilar = this.testInput * 0.02;
-      const unemploymentInsuranceEmployee = this.testInput * 0.016;
+      const socialTax = this.mainInput * 0.33;
+      const totalCostEmp = this.mainInput + socialTax;
+      const unemploymentInsuranceEmployer = this.mainInput * 0.008;
+      const grossSalary = this.mainInput;
+      const fundedPensionIIPilar = this.mainInput * 0.02;
+      const unemploymentInsuranceEmployee = this.mainInput * 0.016;
       const taxFreeMinInput = this.taxFreeMin;
       const underIncomeTax =
         grossSalary -
@@ -195,11 +200,16 @@ export default {
       );
 
       //kogumispension II sammas (eur) ja osakaal brutopalgast %
-      this.results[4].numVal = fundedPensionIIPilar.toFixed(2);
-      this.results[4].percentVal = (
-        (fundedPensionIIPilar / grossSalary) *
-        100
-      ).toFixed(2);
+      if (this.checkboxIdList.includes(4)) {
+        this.results[4].numVal = fundedPensionIIPilar.toFixed(2);
+      } else {
+        this.results[4].nuMVal = 0;
+      }
+      // this.results[4].numVal = fundedPensionIIPilar.toFixed(2);
+      // this.results[4].percentVal = (
+      //   (fundedPensionIIPilar / grossSalary) *
+      //   100
+      // ).toFixed(2);
 
       //tööandja töötuskindlustus ja osakaal brutotulust %
       this.results[5].numVal = unemploymentInsuranceEmployee.toFixed(2);
@@ -215,8 +225,8 @@ export default {
       //netopalk (eur) ja osakaal brutopalgast %
       this.results[7].numVal = netSalary.toFixed(2);
       this.results[7].percentVal = ((netSalary / grossSalary) * 100).toFixed(2);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -239,5 +249,9 @@ export default {
 */
 ::v-deep .results {
   font-size: 0.8em;
+}
+::v-deep .annual {
+  padding-top: 25px;
+  padding-left: 12px;
 }
 </style>
