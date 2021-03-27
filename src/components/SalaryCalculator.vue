@@ -2,7 +2,7 @@
   <!-- Calculator name-->
   <v-container class="font-weight-medium text-left">
     <v-row>
-      <v-col cols="6" class="left"
+      <v-col cols="12" md="6" xs="6" class="left"
         >Lähteandmed
 
         <v-radio-group v-model="picked" row>
@@ -13,45 +13,64 @@
         <v-text-field
           v-if="picked != 1"
           v-model.number="mainInput"
-          @input="testCalc(); taxFreeAmountCheck()"
+          @input="
+            testCalc();
+            taxFreeAmountCheck();
+          "
+          @change="taxFreeAmountCheck()"
           label="Gross Salary (€)"
           hide-details="auto"
           type="number"
           min="0"
           oninput="validity.valid||(value='');"
+          suffix="eur"
         ></v-text-field>
 
         <v-text-field
           v-if="picked != 2"
           v-model.number="costInput"
-          @input="testCalc()"
+          @input="
+            testCalc();
+            taxFreeAmountCheck();
+          "
           label="Employer total Cost(€)"
           hide-details="auto"
           type="number"
           min="0"
           oninput="validity.valid||(value='');"
+          suffix="eur"
         ></v-text-field>
 
         <v-text-field
           v-if="this.checkbox.includes(1)"
           v-model.number="taxFreeMin"
-          @input="checkboxCheck();testCalc();"
+          @input="
+            checkboxCheck();
+            testCalc();
+          "
+          @change="taxFreeAmountCheck()"
           label="Tax Free Minimum Amount (€)"
           hide-details="auto"
           type="number"
           min="0"
-          @change="taxFreeAmountCheck()"
+          step=".01"
           oninput="validity.valid||(value='');"
+          suffix="eur"
         ></v-text-field>
 
         <div v-else></div>
+
+        <v-row class="annual"
+          >Maksimaalne maksuvaba tulu:
+          {{ taxFreeMinAmountCalc.toFixed(2) }}</v-row
+        >
 
         <v-row class="annual"
           >Aastane brutotulu: {{ estimatedAnnualSalary }}</v-row
         >
       </v-col>
 
-      <v-col cols="6" class="right"
+      <v-col cols="12" md="6" xs="6" class="right"
         >Mahaarvamised
 
         <v-list>
@@ -176,13 +195,17 @@ export default {
 
   computed: {
     estimatedAnnualSalary() {
-      return (this.mainInput * 12).toFixed(2);
+      if (this.picked != 1) {
+        return (this.mainInput * 12).toFixed(2);
+      } else {
+        return (this.costInput * 12).toFixed(2);
+      }
     },
 
-//Peab üle vaatama kas kasutame või ei ja kas saame ID järgi üldse?
+    //Peab üle vaatama kas kasutame või ei ja kas saame ID järgi üldse?
     taxFreeMinAmountCalc() {
-      return this.taxFreeAmountCheck(this.items.id[1]);
-    }
+      return this.taxFreeAmountCheck(this.taxFreeMin / 12);
+    },
   },
 
   methods: {
@@ -190,150 +213,151 @@ export default {
       let checkboxId = this.checkbox.map((item) => item.id); //käime kogu checkboxi array läbi ja otsime id järgi, teeme uue listi
       this.checkboxIdList = checkboxId;
     },
-//-------PEAB LISAMA RENDERDAMISE LEHELE! PRAEGU CONSOL LOGIB-----------
+    //-------PEAB LISAMA RENDERDAMISE LEHELE! PRAEGU CONSOL LOGIB-----------
     taxFreeAmountCheck() {
       let taxFreeInput = this.taxFreeMin;
       let annualSalary = this.estimatedAnnualSalary;
       if (annualSalary < 14400) {
         taxFreeInput = 6000 / 12;
-        console.log('kui alla 14400 siis ' + taxFreeInput)
         return taxFreeInput;
       } else if (annualSalary > 25200) {
-        taxFreeInput = 0
-        console.log('kui üle 25200 siis ' + taxFreeInput)
+        taxFreeInput = 0;
         return taxFreeInput;
       } else {
-        taxFreeInput = 6000-6000/10800*(annualSalary-14400)
-        console.log('kui vahemikus ' + taxFreeInput)
+        taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
         return taxFreeInput;
       }
     },
 
     testCalc() {
-      //ifid peab lisama klausli raadio buttonite kohta, et arvestaks kõike ka esimese ifi juures alates rida 219
-      let taxFreeMinInput = this.taxFreeMin;
       let picked = this.picked;
+      //Maksuvaba tulu arvutamine vastavalt aastasissetulekule
+      let taxFreeInput = this.taxFreeMin;
+      let annualSalary = this.estimatedAnnualSalary;
+
+      if (this.checkbox.includes(1)) {
+        if (annualSalary < 14400) {
+         let taxFreeInput = 6000 / 12;
+          this.taxFreeMin = taxFreeInput.toFixed(2);
+        } else if (annualSalary > 25200) {
+          taxFreeInput = 0;
+          this.taxFreeMin = taxFreeInput.toFixed(2);
+        } else {
+          taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
+          this.taxFreeMin = taxFreeInput.toFixed(2);
+        }
+      }
+      //-----------Muutujad ------------------------------------
+      let grossSalary = this.mainInput;
+      let socialTax = grossSalary * 0.33;
+      let unemploymentInsuranceEmployer = grossSalary * 0.008;
+      let totalCostEmp =
+        grossSalary + socialTax + unemploymentInsuranceEmployer;
 
       if (picked == 1) {
-        let totalCostEmp = this.costInput;
-        let socialTax = totalCostEmp * 0.2466;
-        let unemploymentInsuranceEmployer = totalCostEmp * 0.006;
-        let grossSalary =
-          totalCostEmp - socialTax - unemploymentInsuranceEmployer;
-        console.log(grossSalary);
+        totalCostEmp = this.costInput;
+        socialTax = totalCostEmp * 0.2466;
+        unemploymentInsuranceEmployer = totalCostEmp * 0.006;
+        grossSalary = totalCostEmp - socialTax - unemploymentInsuranceEmployer;
+      }
+  
+      //----------------------Calculations------------------------------------------------
+      let fundedPensionIIPilar = grossSalary * 0.02;
+      let unemploymentInsuranceEmployee = grossSalary * 0.016;
+
+      // ---------sotsiaalmaks eur ja sotsiaalmaksu osakaal brutotulust % -------------------
+      if (this.checkbox.includes(0)) {
+        this.results[1].numVal = socialTax.toFixed(2);
+        this.results[1].percentVal = ((socialTax / grossSalary) * 100).toFixed(
+          2
+        );
       } else {
-        let grossSalary = this.mainInput;
-        let socialTax = grossSalary * 0.33;
-        let unemploymentInsuranceEmployer = grossSalary * 0.008;
-        let totalCostEmp =
-          grossSalary + socialTax + unemploymentInsuranceEmployer;
-        //----------------------Calculations------------------------------------------------
-        let fundedPensionIIPilar = grossSalary * 0.02;
-        let unemploymentInsuranceEmployee = grossSalary * 0.016;
-
-        // ---------sotsiaalmaks eur ja sotsiaalmaksu osakaal brutotulust % -------------------
-        if (this.checkbox.includes(0)) {
-          this.results[1].numVal = socialTax.toFixed(2);
-          this.results[1].percentVal = (
-            (socialTax / grossSalary) *
-            100
-          ).toFixed(2);
-        } else {
-          socialTax = 0;
-          totalCostEmp = grossSalary + unemploymentInsuranceEmployer;
-          this.results[1].numVal = 0;
-          this.results[1].percentVal = 0;
-        }
-
-        // -------------tööandja töötuskindlustus ja osakaal brutotulust % -------------------
-        if (this.checkbox.includes(2)) {
-          this.results[2].numVal = unemploymentInsuranceEmployer.toFixed(2);
-          this.results[2].percentVal = (
-            (unemploymentInsuranceEmployer / grossSalary) *
-            100
-          ).toFixed(2);
-        } else {
-          unemploymentInsuranceEmployer = 0;
-          totalCostEmp = grossSalary + socialTax;
-          this.results[2].numVal = 0;
-          this.results[2].percentVal = 0;
-        }
-
-        // ---------tööandja kulu (eur) ja osakaal brutotulust % -----------------
-        this.results[0].numVal = totalCostEmp.toFixed(2);
-        this.results[0].percentVal = (
-          (totalCostEmp / grossSalary) *
+        socialTax = 0;
+        totalCostEmp = grossSalary + unemploymentInsuranceEmployer;
+        this.results[1].numVal = 0;
+        this.results[1].percentVal = 0;
+      }
+      // -------------tööandja töötuskindlustus ja osakaal brutotulust % -------------------
+      if (this.checkbox.includes(2)) {
+        this.results[2].numVal = unemploymentInsuranceEmployer.toFixed(2);
+        this.results[2].percentVal = (
+          (unemploymentInsuranceEmployer / grossSalary) *
           100
         ).toFixed(2);
+      } else {
+        unemploymentInsuranceEmployer = 0;
+        totalCostEmp = grossSalary + socialTax;
+        this.results[2].numVal = 0;
+        this.results[2].percentVal = 0;
+      }
 
-        // ---------brutopalk (eur) ja osakaal brutopalgast % -------------------
-        this.results[3].numVal = grossSalary.toFixed(2);
-        this.results[3].percentVal = (
-          (grossSalary / grossSalary) *
+      // ---------tööandja kulu (eur) ja osakaal brutotulust % -----------------
+      this.results[0].numVal = totalCostEmp.toFixed(2);
+      this.results[0].percentVal = ((totalCostEmp / grossSalary) * 100).toFixed(
+        2
+      );
+
+      // ---------brutopalk (eur) ja osakaal brutopalgast % -------------------
+      this.results[3].numVal = grossSalary.toFixed(2);
+      this.results[3].percentVal = ((grossSalary / grossSalary) * 100).toFixed(
+        2
+      );
+
+      //----------kogumispension II sammas (eur) ja osakaal brutopalgast % --------------
+      if (this.checkbox.includes(4)) {
+        this.results[4].numVal = fundedPensionIIPilar.toFixed(2);
+        this.results[4].percentVal = (
+          (fundedPensionIIPilar / grossSalary) *
           100
         ).toFixed(2);
+      } else {
+        fundedPensionIIPilar = 0;
+        this.results[4].numVal = 0;
+        this.results[4].percentVal = 0;
+      }
 
-        //----------kogumispension II sammas (eur) ja osakaal brutopalgast % --------------
-        if (this.checkbox.includes(4)) {
-          this.results[4].numVal = fundedPensionIIPilar.toFixed(2);
-          this.results[4].percentVal = (
-            (fundedPensionIIPilar / grossSalary) *
-            100
-          ).toFixed(2);
-        } else {
-          fundedPensionIIPilar = 0;
-          console.log(fundedPensionIIPilar);
-          this.results[4].numVal = 0;
-          this.results[4].percentVal = 0;
-          console.log(fundedPensionIIPilar);
-        }
+      // ---------tööandja töötuskindlustus ja osakaal brutotulust % ---------------
+      if (this.checkbox.includes(3)) {
+        this.results[5].numVal = unemploymentInsuranceEmployee.toFixed(2);
+        this.results[5].percentVal = (
+          (unemploymentInsuranceEmployee / grossSalary) *
+          100
+        ).toFixed(2);
+      } else {
+        unemploymentInsuranceEmployee = 0;
+        this.results[5].numVal = 0;
+        this.results[5].percentVal = 0;
+      }
 
-        // ---------tööandja töötuskindlustus ja osakaal brutotulust % ---------------
-        if (this.checkbox.includes(3)) {
-          this.results[5].numVal = unemploymentInsuranceEmployee.toFixed(2);
-          this.results[5].percentVal = (
-            (unemploymentInsuranceEmployee / grossSalary) *
-            100
-          ).toFixed(2);
-          console.log(unemploymentInsuranceEmployee);
-        } else {
-          unemploymentInsuranceEmployee = 0;
-          this.results[5].numVal = 0;
-          this.results[5].percentVal = 0;
-          console.log(unemploymentInsuranceEmployee);
-        }
+      // ----------tulumaks (eur) ja osakaal brutotulust % -------------------
+      const underIncomeTax =
+        grossSalary -
+        taxFreeInput -
+        fundedPensionIIPilar -
+        unemploymentInsuranceEmployee;
 
-        // ----------tulumaks (eur) ja osakaal brutotulust % -------------------
-        const underIncomeTax =
-          grossSalary -
-          taxFreeMinInput -
-          fundedPensionIIPilar -
-          unemploymentInsuranceEmployee;
-        let incomeTax = underIncomeTax * 0.2;
+      let incomeTax = underIncomeTax * 0.2;
 
-        if (incomeTax < 0) {
-          this.results[6].numVal = 0;
-          this.results[6].percentVal = 0;
-          incomeTax = 0;
-        } else {
-          this.results[6].numVal = incomeTax.toFixed(2);
-          this.results[6].percentVal = (
-            (incomeTax / grossSalary) *
-            100
-          ).toFixed(2);
-        }
-
-        // ---------netopalk (eur) ja osakaal brutopalgast % -------------------
-        let netSalary =
-          grossSalary -
-          fundedPensionIIPilar -
-          unemploymentInsuranceEmployee -
-          incomeTax;
-        this.results[7].numVal = netSalary.toFixed(2);
-        this.results[7].percentVal = ((netSalary / grossSalary) * 100).toFixed(
+      if (incomeTax < 0) {
+        this.results[6].numVal = 0;
+        this.results[6].percentVal = 0;
+        incomeTax = 0;
+      } else {
+        this.results[6].numVal = incomeTax.toFixed(2);
+        this.results[6].percentVal = ((incomeTax / grossSalary) * 100).toFixed(
           2
         );
       }
+
+      console.log(taxFreeInput);
+      // ---------netopalk (eur) ja osakaal brutopalgast % -------------------
+      let netSalary =
+        grossSalary -
+        fundedPensionIIPilar -
+        unemploymentInsuranceEmployee -
+        incomeTax;
+      this.results[7].numVal = netSalary.toFixed(2);
+      this.results[7].percentVal = ((netSalary / grossSalary) * 100).toFixed(2);
     },
   },
 };
@@ -341,7 +365,7 @@ export default {
 
 <style scoped>
 ::v-deep .checkbox .v-label {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 /*
@@ -357,10 +381,12 @@ export default {
 }
 */
 ::v-deep .results {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 ::v-deep .annual {
   padding-top: 25px;
   padding-left: 12px;
 }
+
+
 </style>
