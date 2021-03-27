@@ -1,7 +1,7 @@
 <template>
   <!-- Calculator name-->
 
-  <v-container>
+  <v-container fluid>
     <v-row justify="center">
       <v-col
         class="spacing-playground pa-12 text-center"
@@ -171,7 +171,7 @@ export default {
       variablec: 20,
       fuelPriceInput: 1.3,
 
-      picked: "1"
+      picked: "1",
     };
   },
   computed: {
