@@ -171,7 +171,7 @@ export default {
       variablec: 20,
       fuelPriceInput: 1.3,
 
-      picked: "1"
+      picked: "1",
     };
   },
   computed: {
