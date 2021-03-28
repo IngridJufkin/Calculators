@@ -15,13 +15,12 @@
           v-model.number="mainInput"
           @input="
             testCalc();
-            taxFreeAmountCheck();
           "
-          @change="taxFreeAmountCheck()"
           label="Gross Salary (€)"
           hide-details="auto"
           type="number"
           min="0"
+          step=".001"
           oninput="validity.valid||(value='');"
           suffix="eur"
         ></v-text-field>
@@ -31,12 +30,12 @@
           v-model.number="costInput"
           @input="
             testCalc();
-            taxFreeAmountCheck();
           "
           label="Employer total Cost(€)"
           hide-details="auto"
           type="number"
           min="0"
+          step=".001"
           oninput="validity.valid||(value='');"
           suffix="eur"
         ></v-text-field>
@@ -44,16 +43,12 @@
         <v-text-field
           v-if="this.checkbox.includes(1)"
           v-model.number="taxFreeMin"
-          @input="
-            checkboxCheck();
-            testCalc();
-          "
-          @change="taxFreeAmountCheck()"
+          @input="testCalc()"
           label="Tax Free Minimum Amount (€)"
           hide-details="auto"
           type="number"
           min="0"
-          step=".01"
+          step=".001"
           oninput="validity.valid||(value='');"
           suffix="eur"
         ></v-text-field>
@@ -62,7 +57,7 @@
 
         <v-row class="annual"
           >Maksimaalne maksuvaba tulu:
-          {{ taxFreeMinAmountCalc.toFixed(2) }}</v-row
+          {{ this.taxFreeMin }}</v-row
         >
 
         <v-row class="annual"
@@ -81,10 +76,7 @@
               :label="item.name"
               :value="item.id"
               hide-details
-              @change="
-                checkboxCheck();
-                testCalc();
-              "
+              @change="testCalc()"
             ></v-checkbox>
           </v-list-item>
         </v-list> </v-col
@@ -138,7 +130,7 @@ export default {
         },
         {
           id: 1,
-          name: "Arvesta maksuvaba tulu",
+          name: "Arvesta maksuvaba tulu ",
           value: 0,
         },
         {
@@ -198,36 +190,37 @@ export default {
       if (this.picked != 1) {
         return (this.mainInput * 12).toFixed(2);
       } else {
-        return (this.costInput * 12).toFixed(2);
+        let socialTax = this.costInput * 0.2466;
+        let unemploymentInsuranceEmployer = this.costInput * 0.006;
+        let grossSalary =
+          this.costInput - socialTax - unemploymentInsuranceEmployer;
+        return (grossSalary * 12).toFixed(2);
       }
     },
 
     //Peab üle vaatama kas kasutame või ei ja kas saame ID järgi üldse?
     taxFreeMinAmountCalc() {
-      return this.taxFreeAmountCheck(this.taxFreeMin / 12);
+      return this.testCalc(this.taxFreeMin / 12);
     },
   },
 
   methods: {
-    checkboxCheck() {
-      let checkboxId = this.checkbox.map((item) => item.id); //käime kogu checkboxi array läbi ja otsime id järgi, teeme uue listi
-      this.checkboxIdList = checkboxId;
-    },
     //-------PEAB LISAMA RENDERDAMISE LEHELE! PRAEGU CONSOL LOGIB-----------
-    taxFreeAmountCheck() {
-      let taxFreeInput = this.taxFreeMin;
-      let annualSalary = this.estimatedAnnualSalary;
-      if (annualSalary < 14400) {
-        taxFreeInput = 6000 / 12;
-        return taxFreeInput;
-      } else if (annualSalary > 25200) {
-        taxFreeInput = 0;
-        return taxFreeInput;
-      } else {
-        taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
-        return taxFreeInput;
-      }
-    },
+    // taxFreeAmountCheck() {
+    //   let taxFreeInput = this.taxFreeMin;
+    //   let annualSalary = this.estimatedAnnualSalary;
+    //   //console.log("Olen siin sees nüüd!")
+    //   if (annualSalary < 14400) {
+    //     taxFreeInput = 6000 / 12;
+    //     return taxFreeInput;
+    //   } else if (annualSalary > 25200) {
+    //     taxFreeInput = 0;
+    //     return taxFreeInput;
+    //   } else {
+    //     taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
+    //     return taxFreeInput;
+    //   }
+    // },
 
     testCalc() {
       let picked = this.picked;
@@ -237,16 +230,27 @@ export default {
 
       if (this.checkbox.includes(1)) {
         if (annualSalary < 14400) {
-         let taxFreeInput = 6000 / 12;
+          let taxFreeInput = 6000 / 12;
+          console.log("OLEN VÄIKE SISESTUS" + this.taxFreeMin);
+          console.log("OLEN VÄIKE" + taxFreeInput);
           this.taxFreeMin = taxFreeInput.toFixed(2);
         } else if (annualSalary > 25200) {
           taxFreeInput = 0;
           this.taxFreeMin = taxFreeInput.toFixed(2);
         } else {
           taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
-          this.taxFreeMin = taxFreeInput.toFixed(2);
+          console.log("OLEN KESKMINE SISESTUS" + this.taxFreeMin);
+          console.log("OLEN KESKMINE" + taxFreeInput);
+          //this.taxFreeMin = taxFreeInput.toFixed(2);
         }
+      } else {
+        taxFreeInput = 0;
       }
+
+      if (taxFreeInput > this.taxFreeMin && this.checkbox.includes(1)) {
+      taxFreeInput = this.taxFreeMin;
+      }
+
       //-----------Muutujad ------------------------------------
       let grossSalary = this.mainInput;
       let socialTax = grossSalary * 0.33;
@@ -260,7 +264,7 @@ export default {
         unemploymentInsuranceEmployer = totalCostEmp * 0.006;
         grossSalary = totalCostEmp - socialTax - unemploymentInsuranceEmployer;
       }
-  
+
       //----------------------Calculations------------------------------------------------
       let fundedPensionIIPilar = grossSalary * 0.02;
       let unemploymentInsuranceEmployee = grossSalary * 0.016;
@@ -338,6 +342,8 @@ export default {
 
       let incomeTax = underIncomeTax * 0.2;
 
+      //if (taxFreeInput > this.taxFreeMin / 12) {
+
       if (incomeTax < 0) {
         this.results[6].numVal = 0;
         this.results[6].percentVal = 0;
@@ -347,9 +353,10 @@ export default {
         this.results[6].percentVal = ((incomeTax / grossSalary) * 100).toFixed(
           2
         );
+        //}
       }
-
-      console.log(taxFreeInput);
+      console.log("Enne netopalka tulumaks " + incomeTax);
+      console.log("Enne netopalka maksuvaba tulu sisestus " + taxFreeInput);
       // ---------netopalk (eur) ja osakaal brutopalgast % -------------------
       let netSalary =
         grossSalary -
@@ -387,6 +394,4 @@ export default {
   padding-top: 25px;
   padding-left: 12px;
 }
-
-
 </style>
