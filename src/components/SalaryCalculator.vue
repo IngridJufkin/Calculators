@@ -13,9 +13,7 @@
         <v-text-field
           v-if="picked != 1"
           v-model.number="mainInput"
-          @input="
-            testCalc();
-          "
+          @input="testCalc()"
           label="Gross Salary (€)"
           hide-details="auto"
           type="number"
@@ -28,9 +26,7 @@
         <v-text-field
           v-if="picked != 2"
           v-model.number="costInput"
-          @input="
-            testCalc();
-          "
+          @input="testCalc()"
           label="Employer total Cost(€)"
           hide-details="auto"
           type="number"
@@ -56,8 +52,7 @@
         <div v-else></div>
 
         <v-row class="annual"
-          >Maksimaalne maksuvaba tulu:
-          {{ this.taxFreeMin }}</v-row
+          >Maksimaalne maksuvaba tulu: {{ this.taxFreeMin }}</v-row
         >
 
         <v-row class="annual"
@@ -81,38 +76,48 @@
           </v-list-item>
         </v-list> </v-col
     ></v-row>
-
-    <v-row>
-      <v-col>Tulemused</v-col>
-      <v-col cols="3">EUR</v-col>
-      <v-col cols="2">%</v-col></v-row
-    >
-
-    <v-row justify="center"
-      ><v-col class="kast" align="left">
-        <v-card
-          v-for="item in results"
-          :key="item.name"
-          class="results"
-          outlined
-          tile
+    <v-row
+      ><v-col>
+        <v-row>
+          <v-col>Tulemused</v-col>
+          <v-col cols="3">EUR</v-col>
+          <v-col cols="2">%</v-col></v-row
         >
-          <v-row
-            ><v-col>{{ item.name }}</v-col
-            ><v-col cols="3">{{ item.numVal }}</v-col
-            ><v-col cols="2">{{ item.percentVal }}</v-col></v-row
-          >
-        </v-card></v-col
-      ></v-row
-    >
+
+        <v-row
+          ><v-col class="kast" align="left">
+            <v-card
+              v-for="item in results"
+              :key="item.name"
+              class="results"
+              outlined
+              tile
+            >
+              <v-row
+                ><v-col>{{ item.name }}</v-col
+                ><v-col cols="3">{{ item.numVal }}</v-col
+                ><v-col cols="2">{{ item.percentVal }}</v-col></v-row
+              >
+            </v-card></v-col
+          ></v-row
+        ></v-col
+      ><v-col>
+        <pie-chart
+          :value1="+this.results[7].percentVal"
+          :value2="+this.results[4].percentVal"
+          :value3="+this.results[5].percentVal"
+          :value4="+this.results[6].percentVal"
+        /> </v-col
+    ></v-row>
   </v-container>
 </template>
 
 <script>
+import PieChart from "./PieChart";
 export default {
   name: "Salary",
-  props: {
-    msg: String,
+  components: {
+    PieChart,
   },
   data() {
     return {
@@ -248,7 +253,7 @@ export default {
       }
 
       if (taxFreeInput > this.taxFreeMin && this.checkbox.includes(1)) {
-      taxFreeInput = this.taxFreeMin;
+        taxFreeInput = this.taxFreeMin;
       }
 
       //-----------Muutujad ------------------------------------
@@ -388,7 +393,7 @@ export default {
 }
 */
 ::v-deep .results {
-  font-size: 1em;
+  font-size: 0.8em;
 }
 ::v-deep .annual {
   padding-top: 25px;

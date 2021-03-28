@@ -26,7 +26,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Example text</v-toolbar-title>
+      <v-toolbar-title>{{ currentRouteName }}</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -40,11 +40,16 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { title: "Home", icon: "mdi-home", to: "/" },
-      { title: "Fuel", icon: "mdi-gas-station", to: "/fuelcalculator" },
-      { title: "Salary", icon: "mdi-cash-multiple", to: "/salarycalculator" },
-      { title: "TBA", icon: "mdi-help-box" }
-    ]
-  })
+      { title: "Esileht", icon: "mdi-home", to: "/" },
+      { title: "Kütus", icon: "mdi-gas-station", to: "/fuelcalculator" },
+      { title: "Palk", icon: "mdi-cash-multiple", to: "/salarycalculator" },
+      { title: "Kehamassiindeks", icon: "mdi-human-male-female", to: "/kmi" },
+    ],
+  }),
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    },
+  },
 };
 </script>
