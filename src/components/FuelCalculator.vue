@@ -11,16 +11,6 @@
         md="9"
         sm="8"
       >
-        <v-row class="font-weight-medium text-center">
-          <v-col>
-            <h1 class="display-1 font-weight-bold mb-3">
-              {{ msg }}
-            </h1>
-          </v-col>
-        </v-row>
-
-        <span> Vali arvutatav näitaja</span>
-
         <v-radio-group v-model="picked">
           <v-radio
             id="btn1"
@@ -162,7 +152,7 @@
 export default {
   name: "FuelCalculator",
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
@@ -190,7 +180,7 @@ export default {
     },
     fuelAmountResult() {
       return this.calculateAmount(this.variablea, this.variableb);
-    }
+    },
   },
 
   methods: {
@@ -231,7 +221,7 @@ export default {
       } else {
         return fuelAmount.toFixed(2);
       }
-    }
-  }
+    },
+  },
 };
 </script>
