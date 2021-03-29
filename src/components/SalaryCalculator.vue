@@ -1,5 +1,4 @@
 <template>
-  <!-- Calculator name-->
   <v-container class="font-weight-medium text-left">
     <v-row>
       <v-col cols="12" md="6" xs="6" class="left"
@@ -117,7 +116,7 @@ import PieChart from "./PieChart";
 export default {
   name: "Salary",
   components: {
-    PieChart,
+    PieChart
   },
   data() {
     return {
@@ -131,62 +130,62 @@ export default {
       items: [
         {
           id: 0,
-          name: "Arvesta sotsiaalmaksu min. kuumäära alusel",
+          name: "Arvesta sotsiaalmaksu min. kuumäära alusel"
         },
         {
           id: 1,
           name: "Arvesta maksuvaba tulu ",
-          value: 0,
+          value: 0
         },
         {
           id: 2,
-          name: "Tööandja töötuskindlustusmakse",
+          name: "Tööandja töötuskindlustusmakse"
         },
         {
           id: 3,
-          name: "Töötaja (kindlustatu) töötuskindlustusmakse",
+          name: "Töötaja (kindlustatu) töötuskindlustusmakse"
         },
         {
           id: 4,
-          name: "Kogumispension (II sammas)",
-        },
+          name: "Kogumispension (II sammas)"
+        }
       ],
       results: [
         {
           id: 0,
           name: "Tööandja kulu kokku (palgafond)",
           numVal: 1338,
-          percentVal: 133.8,
+          percentVal: 133.8
         },
         {
           id: 1,
           name: "Sotsiaalmaks",
           numVal: 330,
-          percentVal: 33,
+          percentVal: 33
         },
         {
           id: 2,
           name: "Töötuskindlustusmakse (tööandja)",
           numVal: 8,
-          percentVal: 0.8,
+          percentVal: 0.8
         },
         { id: 3, name: "Brutopalk", numVal: 1000, percentVal: 100 },
         {
           id: 4,
           name: "Kogumispension (II sammas)",
           numVal: 20,
-          percentVal: 2,
+          percentVal: 2
         },
         {
           id: 5,
           name: "Töötuskindlustusmakse (töötaja)",
           numVal: 16,
-          percentVal: 1.6,
+          percentVal: 1.6
         },
         { id: 6, name: "Tulumaks", numVal: 92.8, percentVal: 20 },
 
-        { id: 7, name: "Netopalk", numVal: 871.2, percentVal: 87.2 },
-      ],
+        { id: 7, name: "Netopalk", numVal: 871.2, percentVal: 87.2 }
+      ]
     };
   },
 
@@ -203,14 +202,12 @@ export default {
       }
     },
 
-    //Peab üle vaatama kas kasutame või ei ja kas saame ID järgi üldse?
     taxFreeMinAmountCalc() {
       return this.testCalc(this.taxFreeMin / 12);
-    },
+    }
   },
 
   methods: {
-
     testCalc() {
       let picked = this.picked;
 
@@ -226,7 +223,8 @@ export default {
           taxFreeInput = 0;
           this.taxFreeMin = taxFreeInput.toFixed(2);
         } else {
-          let taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
+          let taxFreeInput =
+            (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
           this.taxFreeMin = taxFreeInput.toFixed(2);
         }
       } else {
@@ -255,17 +253,18 @@ export default {
       let fundedPensionIIPilar = grossSalary * 0.02;
       let unemploymentInsuranceEmployee = grossSalary * 0.016;
 
-      // ---------sotsiaalmaks eur ja sotsiaalmaksu osakaal brutotulust % -------------------
-      if (this.checkbox.includes(0)) {
+      // ---------Sotsiaalmaks eur ja sotsiaalmaksu osakaal brutotulust % -------------------
+      if (this.checkbox.includes(0) && socialTax < 192.72) {
+        socialTax = 192.72; //min sotsiaalmasku kuumäär
         this.results[1].numVal = socialTax.toFixed(2);
         this.results[1].percentVal = ((socialTax / grossSalary) * 100).toFixed(
           2
         );
       } else {
-        socialTax = 0;
-        totalCostEmp = grossSalary + unemploymentInsuranceEmployer;
-        this.results[1].numVal = 0;
-        this.results[1].percentVal = 0;
+        this.results[1].numVal = socialTax.toFixed(2);
+        this.results[1].percentVal = ((socialTax / grossSalary) * 100).toFixed(
+          2
+        );
       }
       // -------------tööandja töötuskindlustus ja osakaal brutotulust % -------------------
       if (this.checkbox.includes(2)) {
@@ -328,8 +327,6 @@ export default {
 
       let incomeTax = underIncomeTax * 0.2;
 
-      //if (taxFreeInput > this.taxFreeMin / 12) {
-
       if (incomeTax < 0) {
         this.results[6].numVal = 0;
         this.results[6].percentVal = 0;
@@ -339,10 +336,8 @@ export default {
         this.results[6].percentVal = ((incomeTax / grossSalary) * 100).toFixed(
           2
         );
-        //}
       }
-      console.log("Enne netopalka tulumaks " + incomeTax);
-      console.log("Enne netopalka maksuvaba tulu sisestus " + taxFreeInput);
+
       // ---------netopalk (eur) ja osakaal brutopalgast % -------------------
       let netSalary =
         grossSalary -
@@ -351,8 +346,8 @@ export default {
         incomeTax;
       this.results[7].numVal = netSalary.toFixed(2);
       this.results[7].percentVal = ((netSalary / grossSalary) * 100).toFixed(2);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -361,23 +356,11 @@ export default {
   font-size: 1em;
 }
 
-/*
-::v-deep .kast,
-.right {
-  border-style: solid;
-  border-color: rgb(0, 0, 0);
-}
-::v-deep .left,
-.chart {
-  border-style: solid;
-  border-color: rgb(0, 0, 0);
-}
-*/
 ::v-deep .results {
   font-size: 0.8em;
 }
 ::v-deep .annual {
-  padding-top: 25px;
-  padding-left: 12px;
+  padding-top: 0.8em;
+  padding-left: 0.8em;
 }
 </style>

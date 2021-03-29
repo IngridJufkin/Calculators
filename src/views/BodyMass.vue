@@ -10,7 +10,7 @@ import BodyMass from "@/components/BodyMass.vue";
 export default {
   name: "bodymass",
   components: {
-    BodyMass,
-  },
+    BodyMass
+  }
 };
 </script>

@@ -10,7 +10,7 @@ import FuelCalculator from "@/components/FuelCalculator.vue";
 export default {
   name: "Fuel",
   components: {
-    FuelCalculator,
-  },
+    FuelCalculator
+  }
 };
 </script>
