@@ -1,6 +1,4 @@
 <template>
-  <!-- Calculator name-->
-
   <v-container fluid>
     <v-row justify="center">
       <v-col

@@ -1,11 +1,14 @@
 <template>
   <figure class="pie-chart" :style="pieChartStats">
-    <figcaption>
+    <figcaption class="fig1">
       Netopalk {{ this.value1 }}%<span style="color: #4e79a7"></span><br />
       II sammas {{ this.value2 }}% <span style="color: #f28e2c"></span><br />
       Töötuskindlustus {{ this.value3 }}% <span style="color: #e15759"></span
       ><br />
       Tulumaks {{ this.value4 }}% <span style="color: #59a14f"></span><br />
+    </figcaption>
+    <figcaption class="fig2">
+      <span style="color: #ff0000"></span> Salakood {{ this.value5 }}
     </figcaption>
   </figure>
 </template>
@@ -29,6 +32,9 @@ export default {
     value4: {
       type: Number,
       default: 40
+    },
+    value5: {
+      default: null
     }
   },
   computed: {
@@ -52,15 +58,22 @@ export default {
 <style scoped>
 .pie-chart {
   position: relative;
-  width: 400px;
-  min-height: 350px;
+  width: 21em;
+  min-height: 25em;
   margin: 0;
 }
 
-.pie-chart figcaption {
+.pie-chart .fig1 {
   position: absolute;
   bottom: 1em;
-  right: 0.5em;
+  right: 1em;
+  font-size: smaller;
+  text-align: right;
+}
+.pie-chart .fig2 {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
   font-size: smaller;
   text-align: right;
 }

@@ -39,7 +39,7 @@
           v-if="this.checkbox.includes(1)"
           v-model.number="taxFreeMin"
           @input="testCalc()"
-          label="Tax Free Minimum Amount (€)"
+          label="Maksuvaba tulu (€)"
           hide-details="auto"
           type="number"
           min="0"
@@ -79,8 +79,8 @@
       ><v-col>
         <v-row>
           <v-col>Tulemused</v-col>
-          <v-col cols="3">EUR</v-col>
-          <v-col cols="2">%</v-col></v-row
+          <v-col align="right" cols="3">EUR</v-col>
+          <v-col align="right" cols="3">%</v-col></v-row
         >
 
         <v-row
@@ -94,8 +94,10 @@
             >
               <v-row
                 ><v-col>{{ item.name }}</v-col
-                ><v-col cols="3">{{ item.numVal }}</v-col
-                ><v-col cols="2">{{ item.percentVal }}</v-col></v-row
+                ><v-col align="right" cols="3">{{ item.numVal }}</v-col
+                ><v-col align="right" cols="3">{{
+                  item.percentVal
+                }}</v-col></v-row
               >
             </v-card></v-col
           ></v-row
@@ -106,12 +108,15 @@
           :value2="+this.results[4].percentVal"
           :value3="+this.results[5].percentVal"
           :value4="+this.results[6].percentVal"
+          :value5="this.resultOfCalculator3"
         /> </v-col
     ></v-row>
   </v-container>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import PieChart from "./PieChart";
 export default {
   name: "Salary",
@@ -120,10 +125,10 @@ export default {
   },
   data() {
     return {
-      mainInput: 1000,
-      costInput: 1338,
+      mainInput: 1000.0,
+      costInput: 1338.0,
       testResult: 0,
-      taxFreeMin: 500,
+      taxFreeMin: 500.0,
       checkbox: [0, 1, 2, 3, 4],
       picked: "2",
 
@@ -154,35 +159,35 @@ export default {
         {
           id: 0,
           name: "Tööandja kulu kokku (palgafond)",
-          numVal: 1338,
+          numVal: 1338.0,
           percentVal: 133.8
         },
         {
           id: 1,
           name: "Sotsiaalmaks",
-          numVal: 330,
-          percentVal: 33
+          numVal: 330.0,
+          percentVal: 33.0
         },
         {
           id: 2,
           name: "Töötuskindlustusmakse (tööandja)",
-          numVal: 8,
+          numVal: 8.0,
           percentVal: 0.8
         },
-        { id: 3, name: "Brutopalk", numVal: 1000, percentVal: 100 },
+        { id: 3, name: "Brutopalk", numVal: 1000.0, percentVal: 100.0 },
         {
           id: 4,
           name: "Kogumispension (II sammas)",
-          numVal: 20,
-          percentVal: 2
+          numVal: 20.0,
+          percentVal: 2.0
         },
         {
           id: 5,
           name: "Töötuskindlustusmakse (töötaja)",
-          numVal: 16,
+          numVal: 16.0,
           percentVal: 1.6
         },
-        { id: 6, name: "Tulumaks", numVal: 92.8, percentVal: 20 },
+        { id: 6, name: "Tulumaks", numVal: 92.8, percentVal: 20.0 },
 
         { id: 7, name: "Netopalk", numVal: 871.2, percentVal: 87.2 }
       ]
@@ -190,6 +195,8 @@ export default {
   },
 
   computed: {
+    ...mapState(["resultOfCalculator3"]),
+
     estimatedAnnualSalary() {
       if (this.picked != 1) {
         return (this.mainInput * 12).toFixed(2);
@@ -214,7 +221,6 @@ export default {
       //------------Maksuvaba tulu arvutamine vastavalt aastasissetulekule------------
       let taxFreeInput = this.taxFreeMin;
       let annualSalary = this.estimatedAnnualSalary;
-
       if (this.checkbox.includes(1)) {
         if (annualSalary < 14400) {
           let taxFreeInput = 6000 / 12;
@@ -352,13 +358,10 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .checkbox .v-label {
-  font-size: 1em;
+::v-deep .results {
+  font-size: 0.9em;
 }
 
-::v-deep .results {
-  font-size: 0.8em;
-}
 ::v-deep .annual {
   padding-top: 0.8em;
   padding-left: 0.8em;

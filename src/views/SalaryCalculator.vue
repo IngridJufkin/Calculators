@@ -1,12 +1,10 @@
 <template>
   <div class="salary text-center">
-    <SalaryCalculator msg="Salary calculator" />
+    <SalaryCalculator />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
 import SalaryCalculator from "@/components/SalaryCalculator.vue";
 
 export default {

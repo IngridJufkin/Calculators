@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Bodymass",
   data() {
@@ -47,11 +48,23 @@ export default {
     };
   },
   computed: {
+    ...mapState(["resultOfCalculator3"]),
+
+    result() {
+      return this.resultOfCalculator3;
+    },
+
     BMIResult() {
       return this.calculateBMI(this.heightInCm, this.weightInKilograms);
     }
   },
+  watch: {
+    BMIResult(value) {
+      this.setCalculatorResultValue({ result: value });
+    }
+  },
   methods: {
+    ...mapActions(["setCalculatorResultValue"]),
     calculateBMI(heightInCm, weightInKilograms) {
       const heightInMeters = heightInCm / 100;
       const Square = Math.pow(heightInMeters, 2);
