@@ -210,43 +210,24 @@ export default {
   },
 
   methods: {
-    //-------PEAB LISAMA RENDERDAMISE LEHELE! PRAEGU CONSOL LOGIB-----------
-    // taxFreeAmountCheck() {
-    //   let taxFreeInput = this.taxFreeMin;
-    //   let annualSalary = this.estimatedAnnualSalary;
-    //   //console.log("Olen siin sees nüüd!")
-    //   if (annualSalary < 14400) {
-    //     taxFreeInput = 6000 / 12;
-    //     return taxFreeInput;
-    //   } else if (annualSalary > 25200) {
-    //     taxFreeInput = 0;
-    //     return taxFreeInput;
-    //   } else {
-    //     taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
-    //     return taxFreeInput;
-    //   }
-    // },
 
     testCalc() {
       let picked = this.picked;
-      //Maksuvaba tulu arvutamine vastavalt aastasissetulekule
+
+      //------------Maksuvaba tulu arvutamine vastavalt aastasissetulekule------------
       let taxFreeInput = this.taxFreeMin;
       let annualSalary = this.estimatedAnnualSalary;
 
       if (this.checkbox.includes(1)) {
         if (annualSalary < 14400) {
           let taxFreeInput = 6000 / 12;
-          console.log("OLEN VÄIKE SISESTUS" + this.taxFreeMin);
-          console.log("OLEN VÄIKE" + taxFreeInput);
           this.taxFreeMin = taxFreeInput.toFixed(2);
         } else if (annualSalary > 25200) {
           taxFreeInput = 0;
           this.taxFreeMin = taxFreeInput.toFixed(2);
         } else {
-          taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
-          console.log("OLEN KESKMINE SISESTUS" + this.taxFreeMin);
-          console.log("OLEN KESKMINE" + taxFreeInput);
-          //this.taxFreeMin = taxFreeInput.toFixed(2);
+          let taxFreeInput = (6000 - (6000 / 10800) * (annualSalary - 14400)) / 12;
+          this.taxFreeMin = taxFreeInput.toFixed(2);
         }
       } else {
         taxFreeInput = 0;
