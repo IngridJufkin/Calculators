@@ -3,8 +3,8 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title class="title"> Calculators </v-list-item-title>
-          <v-list-item-subtitle> description </v-list-item-subtitle>
+          <v-list-item-title class="title"> 3 lahedat kalkulaatorit </v-list-item-title>
+          <v-list-item-subtitle> Kõige lahedamad kalkulaatorid! </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
