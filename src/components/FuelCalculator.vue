@@ -152,7 +152,7 @@
 export default {
   name: "FuelCalculator",
   props: {
-    msg: String,
+    msg: String
   },
   data() {
     return {
@@ -161,7 +161,7 @@ export default {
       variablec: 20,
       fuelPriceInput: 1.3,
 
-      picked: "1",
+      picked: "1"
     };
   },
   computed: {
@@ -180,7 +180,7 @@ export default {
     },
     fuelAmountResult() {
       return this.calculateAmount(this.variablea, this.variableb);
-    },
+    }
   },
 
   methods: {
@@ -221,7 +221,7 @@ export default {
       } else {
         return fuelAmount.toFixed(2);
       }
-    },
-  },
+    }
+  }
 };
 </script>

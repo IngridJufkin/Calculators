@@ -3,12 +3,12 @@
     <figcaption>
       Netopalk {{ this.value1 }}%<span style="color: #4e79a7"></span><br />
       II sammas {{ this.value2 }}% <span style="color: #f28e2c"></span><br />
-      Töötuskindlustus {{ this.value3 }}% <span style="color: #e15759"></span><br />
+      Töötuskindlustus {{ this.value3 }}% <span style="color: #e15759"></span
+      ><br />
       Tulumaks {{ this.value4 }}% <span style="color: #59a14f"></span><br />
     </figcaption>
   </figure>
 </template>
-
 
 <script>
 export default {
@@ -16,28 +16,36 @@ export default {
   props: {
     value1: {
       type: Number,
-      default: 10,
+      default: 10
     },
     value2: {
       type: Number,
-      default: 20,
+      default: 20
     },
     value3: {
       type: Number,
-      default: 30,
+      default: 30
     },
     value4: {
       type: Number,
-      default: 40,
-    },
+      default: 40
+    }
   },
   computed: {
     pieChartStats() {
       return {
-        background: `radial-gradient(circle closest-side, transparent 66%, white 0), conic-gradient(#4e79a7 0, #4e79a7 ${this.value1}%, #f28e2c 0, #f28e2c ${this.value1+this.value2}%, #e15759 0, #e15759 ${this.value1+this.value2+this.value3}%, #59a14f 0, #59a14f ${this.value1+this.value2+this.value3+this.value4}%)`,
+        background: `radial-gradient(circle closest-side, transparent 66%, white 0), conic-gradient(#4e79a7 0, #4e79a7 ${
+          this.value1
+        }%, #f28e2c 0, #f28e2c ${this.value1 +
+          this.value2}%, #e15759 0, #e15759 ${this.value1 +
+          this.value2 +
+          this.value3}%, #59a14f 0, #59a14f ${this.value1 +
+          this.value2 +
+          this.value3 +
+          this.value4}%)`
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
