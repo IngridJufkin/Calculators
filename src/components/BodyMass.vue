@@ -1,10 +1,7 @@
 <template>
-  <!-- Calculator name-->
   <v-container fluid class="spacing-playground pa-6">
-    <v-row justify="center">
-      <h2>KMI kalkulaator</h2>
+    <v-row justify="center" class="pt-16">
 
-      <v-container fluid height: 10px !important;>
         <v-row>
           <v-col cols="12" class="d-flex align-center">
             <v-subheader> Kaal (kg)</v-subheader>
@@ -31,12 +28,11 @@
             ></v-slider>
           </v-col>
         </v-row>
-      </v-container>
     </v-row>
 
     <v-row class="mb-4">
       <v-col class="mb-4">
-        <h2>Sinu KMI on: {{ BMIResult }}</h2>
+        <h2 align="center" >Sinu KMI on: {{ BMIResult }}</h2>
       </v-col>
     </v-row>
   </v-container>
@@ -45,9 +41,6 @@
 <script>
 export default {
   name: "Bodymass",
-  props: {
-    msg: String,
-  },
   data() {
     return {
       heightInCm: 170,
@@ -64,11 +57,6 @@ export default {
       const heightInMeters = heightInCm / 100;
       const Square = Math.pow(heightInMeters, 2);
       const BMI = weightInKilograms / Square;
-      console.log(weightInKilograms);
-      console.log(heightInMeters);
-      console.log(Square);
-      console.log(BMI);
-
       return BMI.toFixed(2);
     },
 
