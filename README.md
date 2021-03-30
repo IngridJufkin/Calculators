@@ -1,4 +1,4 @@
-# project-name
+# 3 Calculators
 
 ## Project setup
 ```
