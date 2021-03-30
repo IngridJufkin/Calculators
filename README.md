@@ -6,6 +6,9 @@
 | Ingrid Jufkin | IngridJufkin |
 | Meelis Mumm | MeelisM |
 
+# Netlify
+https://mycalculators.netlify.app/
+
 # Project description
 
 Create a Vue application that contains three different calculators: Fuel Calculator, Salary Calculator and another calculator of your choice.
