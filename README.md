@@ -1,8 +1,10 @@
 # 3 Calculators
 
 ## Team members:
-| :green_book: Ingri Jufkin | IngridJufkin |
-| :green_book: Meelis Mumm | MeelisM |
+| Name | github |
+| --- | --- |
+| Ingrid Jufkin | IngridJufkin |
+| Meelis Mumm | MeelisM |
 
 # Project description
 
@@ -10,9 +12,12 @@ Create a Vue application that contains three different calculators: Fuel Calcula
 
 Links to calcualtors below:
 
-Fuel Calculator: (.src/components/FuelCalculator.vue)
-Salary Calculator: (.src/components/SalaryCalculator.vue)
-Body Mass Index Calculator: (.src/components/BodyMass.vue)
+[Fuel Calculator](.src/components/FuelCalculator.vue)
+
+[Salary Calculator](.src/components/SalaryCalculator.vue)
+
+[Body Mass Index Calculator](./components/BodyMass.vue)
+
 
 ## Project setup
 ```
