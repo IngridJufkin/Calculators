@@ -15,11 +15,11 @@ Create a Vue application that contains three different calculators: Fuel Calcula
 
 Links to the calculators are displayed below:
 
-[Fuel Calculator](../blob/main/src/components/FuelCalculator.vue)
+[Fuel Calculator](../main/src/components/FuelCalculator.vue)
 
-[Salary Calculator](.src/components/SalaryCalculator.vue)
+[Salary Calculator](../main/src/components/SalaryCalculator.vue)
 
-[Body Mass Index Calculator](./components/BodyMass.vue)
+[Body Mass Index Calculator](../main/src/components/BodyMass.vue)
 
 
 ## Project setup
