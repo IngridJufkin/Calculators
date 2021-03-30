@@ -8,7 +8,7 @@
       Tulumaks {{ this.value4 }}% <span style="color: #59a14f"></span><br />
     </figcaption>
     <figcaption class="fig2">
-      <span style="color: #ff0000"></span> Salakood {{ this.value5 }}
+      <span style="color: #e000ff"></span> {{ this.value5 }} Vuex
     </figcaption>
   </figure>
 </template>
