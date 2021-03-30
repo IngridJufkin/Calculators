@@ -6,7 +6,7 @@
 | Ingrid Jufkin | IngridJufkin |
 | Meelis Mumm | MeelisM |
 
-# Netlify
+## Netlify
 https://mycalculators.netlify.app/
 
 # Project description
