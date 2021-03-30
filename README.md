@@ -10,7 +10,7 @@
 
 Create a Vue application that contains three different calculators: Fuel Calculator, Salary Calculator and another calculator of your choice.
 
-Links to calcualtors below:
+Links to the calculators are displayed below:
 
 [Fuel Calculator](.src/components/FuelCalculator.vue)
 
