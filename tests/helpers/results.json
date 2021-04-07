@@ -1,0 +1,52 @@
+{
+  "initial": [
+    {
+      "id": 0,
+      "name": "Tööandja kulu kokku (palgafond)",
+      "numVal": "1338.00",
+      "percentVal": "133.80"
+    },
+    {
+      "id": 1,
+      "name": "Sotsiaalmaks",
+      "numVal": "330.00",
+      "percentVal": "33.00"
+    },
+    {
+      "id": 2,
+      "name": "Töötuskindlustusmakse (tööandja)",
+      "numVal": "8.00",
+      "percentVal": "0.80"
+    },
+    {
+      "id": 3,
+      "name": "Brutopalk",
+      "numVal": "1000.00",
+      "percentVal": "100.00"
+    },
+    {
+      "id": 4,
+      "name": "Kogumispension (II sammas)",
+      "numVal": "20.00",
+      "percentVal": "2.00"
+    },
+    {
+      "id": 5,
+      "name": "Töötuskindlustusmakse (töötaja)",
+      "numVal": "16.00",
+      "percentVal": "1.60"
+    },
+    {
+      "id": 6,
+      "name": "Tulumaks",
+      "numVal": "92.80",
+      "percentVal": "9.28"
+    },
+    {
+      "id": 7,
+      "name": "Netopalk",
+      "numVal": "871.20",
+      "percentVal": "87.12"
+    }
+  ]
+}

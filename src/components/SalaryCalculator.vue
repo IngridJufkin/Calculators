@@ -159,39 +159,56 @@ export default {
         {
           id: 0,
           name: "Tööandja kulu kokku (palgafond)",
-          numVal: 1338.0,
-          percentVal: 133.8
+          numVal: 0,
+          percentVal: 0
         },
         {
           id: 1,
           name: "Sotsiaalmaks",
-          numVal: 330.0,
-          percentVal: 33.0
+          numVal: 0,
+          percentVal: 0
         },
         {
           id: 2,
           name: "Töötuskindlustusmakse (tööandja)",
-          numVal: 8.0,
-          percentVal: 0.8
+          numVal: 0,
+          percentVal: 0
         },
-        { id: 3, name: "Brutopalk", numVal: 1000.0, percentVal: 100.0 },
+        {
+          id: 3,
+          name: "Brutopalk",
+          numVal: 0,
+          percentVal: 0
+        },
         {
           id: 4,
           name: "Kogumispension (II sammas)",
-          numVal: 20.0,
-          percentVal: 2.0
+          numVal: 0,
+          percentVal: 0
         },
         {
           id: 5,
           name: "Töötuskindlustusmakse (töötaja)",
-          numVal: 16.0,
-          percentVal: 1.6
+          numVal: 0,
+          percentVal: 0
         },
-        { id: 6, name: "Tulumaks", numVal: 92.8, percentVal: 20.0 },
-
-        { id: 7, name: "Netopalk", numVal: 871.2, percentVal: 87.2 }
+        {
+          id: 6,
+          name: "Tulumaks",
+          numVal: 0,
+          percentVal: 0
+        },
+        {
+          id: 7,
+          name: "Netopalk",
+          numVal: 0,
+          percentVal: 0
+        }
       ]
     };
+  },
+  created() {
+    this.testCalc();
   },
 
   computed: {
@@ -358,12 +375,12 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .results {
-  font-size: 0.9em;
-}
+  ::v-deep .results {
+    font-size: 0.9em;
+  }
 
-::v-deep .annual {
-  padding-top: 0.8em;
-  padding-left: 0.8em;
-}
+  ::v-deep .annual {
+    padding-top: 0.8em;
+    padding-left: 0.8em;
+  }
 </style>
