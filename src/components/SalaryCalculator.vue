@@ -10,48 +10,46 @@
         </v-radio-group>
 
         <v-text-field
-          v-if="picked != 1"
-          v-model.number="mainInput"
-          @input="testCalc()"
-          label="Bruto tulu (€)"
-          hide-details="auto"
-          type="number"
-          min="0"
-          step=".001"
-          oninput="validity.valid||(value='');"
-          suffix="eur"
-        ></v-text-field>
-
-        <v-text-field
-          v-if="picked != 2"
+          v-if="picked === '1'"
           v-model.number="costInput"
+          name="costInput"
           @input="testCalc()"
           label="Tööandja kulu(€)"
           hide-details="auto"
           type="number"
           min="0"
           step=".001"
-          oninput="validity.valid||(value='');"
           suffix="eur"
         ></v-text-field>
 
         <v-text-field
-          v-if="this.checkbox.includes(1)"
+          v-if="picked === '2'"
+          v-model.number="mainInput"
+          name="mainInput"
+          @input="testCalc()"
+          label="Bruto tulu (€)"
+          hide-details="auto"
+          type="number"
+          min="0"
+          step=".001"
+          suffix="eur"
+        ></v-text-field>
+
+        <v-text-field
+          v-if="checkbox.includes(1)"
           v-model.number="taxFreeMin"
+          name="taxFreeMin"
           @input="testCalc()"
           label="Maksuvaba tulu (€)"
           hide-details="auto"
           type="number"
           min="0"
           step=".001"
-          oninput="validity.valid||(value='');"
           suffix="eur"
         ></v-text-field>
 
-        <div v-else></div>
-
         <v-row class="annual"
-          >Maksimaalne maksuvaba tulu: {{ this.taxFreeMin }}</v-row
+          >Maksimaalne maksuvaba tulu: {{ taxFreeMin }}</v-row
         >
 
         <v-row class="annual"
@@ -73,10 +71,11 @@
               @change="testCalc()"
             ></v-checkbox>
           </v-list-item>
-        </v-list> </v-col
-    ></v-row>
-    <v-row
-      ><v-col>
+        </v-list>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-row>
           <v-col>Tulemused</v-col>
           <v-col align="right" cols="3">EUR</v-col>
